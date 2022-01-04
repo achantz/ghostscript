@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve",
+    "start": "TMPDIR=./files/temp nx serve",
     "build": "nx build",
     "test": "nx test"
   },
@@ -12,6 +12,8 @@
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "ghostscript4js": "^3.2.1",
+    "pdf-lib": "^1.17.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.0.0"
@@ -29,6 +31,7 @@
     "@nrwl/tao": "13.4.3",
     "@nrwl/workspace": "13.4.3",
     "@types/jest": "27.0.2",
+    "@types/multer": "^1.4.7",
     "@types/node": "14.14.33",
     "@typescript-eslint/eslint-plugin": "~5.3.0",
     "@typescript-eslint/parser": "~5.3.0",

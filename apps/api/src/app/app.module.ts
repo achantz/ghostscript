@@ -9,8 +9,4 @@ import { CompressionService } from './compression/compression.service';
   controllers: [AppController],
   providers: [AppService, CompressionService],
 })
-export class AppModule {
-  public async compressPDF(path: string) {
-    return;
-  }
-}
+export class AppModule {}

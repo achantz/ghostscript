@@ -1,0 +1,13 @@
+version: "3.8"
+
+services: 
+  api: 
+    container_name: ghostscript-api
+    build:
+      context: ./
+      dockerfile: ./dockerfile
+      args:
+        NODE_ENV: "development"
+        BUILD_FLAG: ""
+    volumes:
+      - .:/usr/src/app
