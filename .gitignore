@@ -38,7 +38,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# /files/temp/*
-# /files/*.*
-# /files/compressed/*
-# /files/stamped/*
+/files/temp/*
+/files/*.*
+/files/compressed/*
+/files/stamped/*
