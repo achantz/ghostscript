@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Post,
@@ -43,9 +44,27 @@ export class AppController {
       }),
     })
   )
-  async uploadFile(@UploadedFile() file: Express.Multer.File) {
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Body('compress') compress: 'false' | 'true' = 'false',
+    @Body('stampFirstPageOnly') stampFirstPageOnly: 'false' | 'true' = 'true'
+  ) {
+    const compression = JSON.parse(compress);
+    const firstPageOnly = JSON.parse(stampFirstPageOnly);
     console.log(file);
-    await this.compressionService.compressFile(file.path);
-    await this.compressionService.stampFile(file.path);
+    console.log(`Compression: ${compression}`);
+    console.log(`Stamp First Page Only: ${firstPageOnly}`);
+    console.time('Document Processing');
+
+    if (compression) {
+      await this.compressionService.compressFile(file.path);
+    }
+    await this.compressionService.stampFile(
+      file.path,
+      compression,
+      firstPageOnly
+    );
+
+    console.timeEnd('Document Processing');
   }
 }

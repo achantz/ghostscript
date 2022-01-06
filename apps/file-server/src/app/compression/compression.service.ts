@@ -45,28 +45,34 @@ export class CompressionService {
     return false;
   }
 
-  async stampFile(filePath: string) {
+  async stampFile(filePath: string, compressed: boolean, firstPageOnly = true) {
     try {
       if (path.parse(filePath).ext === '.pdf') {
         const pathParsed = path.parse(filePath);
         const consoleLabel = `Stamping for ${
           pathParsed.name + pathParsed.ext
         } took`;
-        console.time(consoleLabel);
-        const uint8Array = readFileSync(filePath);
+
+        const inputFilePath = path.join(
+          pathParsed.dir,
+          compressed ? 'compressed' : '',
+          pathParsed.name + pathParsed.ext
+        );
+        const uint8Array = readFileSync(inputFilePath);
         const pdfDoc = await PDFDocument.load(uint8Array);
         const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
         const pages = pdfDoc.getPages();
         const { height } = pages[0].getSize();
-
         const outputFileName = path.join(
           pathParsed.dir,
           'stamped',
           pathParsed.name + pathParsed.ext
         );
+        const lastPageToStamp = firstPageOnly ? 1 : pages.length;
 
-        pages.forEach((page) => {
-          page.drawText('Some Stamped Text', {
+        console.time(consoleLabel);
+        for (let i = 0; i < lastPageToStamp; i++) {
+          pages[i].drawText('Some Stamped Text', {
             x: 40,
             y: height - 20,
             size: 10,
@@ -74,7 +80,7 @@ export class CompressionService {
             font: helveticaFont,
             color: rgb(0.95, 0.1, 0.1),
           });
-        });
+        }
 
         const pdfBytes = await pdfDoc.save();
         writeFileSync(outputFileName, pdfBytes);
